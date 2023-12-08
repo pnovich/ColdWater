@@ -1,5 +1,6 @@
 package com.example.WaterAndGasMonitoring;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +17,20 @@ public class WaterAndGasMonitoringController {
     @Autowired
     WaterAndGasMonitoringService waterAndGasMonitoringService;
 
+    @Operation(summary = "gets all records for specific user." +
+            "Needs clientId numeric path variable for user. Example: http://localhost:8080/records/1")
+
     @GetMapping("/records/{id}")
     List<ClientsDataRecord> getAllRecordsForClient(@Valid @PathVariable ("id") int id) {
 
         return waterAndGasMonitoringService.getRecordsForClientsIdWithQuery(id);
     }
+
+    @Operation(summary = "creates one record for specific user." +
+            "Needs numeric clientId as path variable and json ClientsRecordDto." +
+            "Example: http://localhost:8080/records/1" +
+            "ClientsDataRecordDto: {\"gasValue\": 20,\"coldWaterValue\": 20,\"hotWaterValue\": 20}")
+
 
     @PostMapping("/records/{id}")
     ClientsDataRecord createClientsDataRecord(
