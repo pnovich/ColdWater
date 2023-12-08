@@ -1,8 +1,25 @@
 package com.example.WaterAndGasMonitoring;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class ClientsDataRecordDto {
+
+    @Min(0)
+    @Max(999999)
+    @NotNull
     int gasValue;
+
+    @Min(0)
+    @Max(999999)
+    @NotNull
     int coldWaterValue;
+
+    @Min(0)
+    @Max(999999)
+    @NotNull
     int hotWaterValue;
 
     public ClientsDataRecordDto() {

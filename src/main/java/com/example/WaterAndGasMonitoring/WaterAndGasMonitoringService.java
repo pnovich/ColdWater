@@ -29,28 +29,24 @@ public class WaterAndGasMonitoringService {
         Client client3 = new Client("client3");
         clientRepository.saveAll(Arrays.asList(client1, client2, client3));
 
-        for (int i = 1; i < 4; i++) {
-            for (int j = 0; j< 10000; j++) {
-                int value = j*10;
+        ClientsDataRecord clientsDataRecord = new ClientsDataRecord();
+        clientsDataRecord.setClientId(1);
+        clientsDataRecord.setColdWaterValue(10);
+        clientsDataRecord.setHotWaterValue(10);
+        clientsDataRecord.setGasValue(10);
+        clientsDataRecord.setLocalDate(LocalDate.now());
+        clientsDataRecordRepository.save(clientsDataRecord);
+    }
 
-                ClientsDataRecord clientsDataRecord = new ClientsDataRecord();
-                clientsDataRecord.setClientId(i);
-                clientsDataRecord.setColdWaterValue(j);
-                clientsDataRecord.setHotWaterValue(j);
-                clientsDataRecord.setGasValue(j);
-                clientsDataRecord.setLocalDate(LocalDate.now());
-                clientsDataRecordRepository.save(clientsDataRecord);
-
-            }
+    public void validateClientId(int clientId) throws ClientNotFoundException {
+        List<Client> clients = clientRepository.findAll();
+        List<Integer> ids = clients.stream()
+                .map(c -> {return c.getId();})
+                .collect(Collectors.toList());
+        if (!ids.contains(clientId)) {
+            throw new ClientNotFoundException("client id = " + clientId);
         }
 
-//        ClientsDataRecord clientsDataRecord = new ClientsDataRecord();
-//        clientsDataRecord.setClientId(1);
-//        clientsDataRecord.setColdWaterValue(10);
-//        clientsDataRecord.setHotWaterValue(10);
-//        clientsDataRecord.setGasValue(10);
-//        clientsDataRecord.setLocalDate(LocalDate.now());
-//        clientsDataRecordRepository.save(clientsDataRecord);
     }
 
     public List<ClientsDataRecord> getAllClientsDataRecords(int id) {
