@@ -22,20 +22,8 @@ public class WaterAndGasMonitoringService {
     }
 
     @PostConstruct
-    public void initDb() {
-
-        Client client1 = new Client("client1");
-        Client client2 = new Client("client2");
-        Client client3 = new Client("client3");
-        clientRepository.saveAll(Arrays.asList(client1, client2, client3));
-
-        ClientsDataRecord clientsDataRecord = new ClientsDataRecord();
-        clientsDataRecord.setClientId(1);
-        clientsDataRecord.setColdWaterValue(10);
-        clientsDataRecord.setHotWaterValue(10);
-        clientsDataRecord.setGasValue(10);
-        clientsDataRecord.setLocalDate(LocalDate.now());
-        clientsDataRecordRepository.save(clientsDataRecord);
+    public void init() {
+        initDb();
     }
 
     public void validateClientId(int clientId) throws ClientNotFoundException {
@@ -49,26 +37,7 @@ public class WaterAndGasMonitoringService {
 
     }
 
-    public List<ClientsDataRecord> getAllClientsDataRecords(int id) {
-        return clientsDataRecordRepository.findAll().stream()
-                .filter(r -> r.getClientId() == id)
-                .collect(Collectors.toList());
-    }
-
-    public int getClientIdByName(String name) {
-    Client client = clientRepository.findAll().stream()
-                .filter(c -> c.getClientName().equals(name))
-                .findAny().orElseThrow(() -> new ClientNotFoundException(name));
-    return client.getId();
-    }
-
-    public Client mapClient(ClientDto clientDto) {
-        Client client = new Client();
-        client.setClientName(clientDto.getName());
-        return client;
-    }
-
-    public ClientsDataRecord mapClientsDataRecord(ClientsDataRecordDto clientsDataRecordDto) {
+    public ClientsDataRecord mapClientsDataRecordDtoToRecord(ClientsDataRecordDto clientsDataRecordDto) {
         ClientsDataRecord clientsDataRecord = new ClientsDataRecord();
         clientsDataRecord.setGasValue(clientsDataRecordDto.getGasValue());
         clientsDataRecord.setColdWaterValue(clientsDataRecordDto.getColdWaterValue());
@@ -76,24 +45,38 @@ public class WaterAndGasMonitoringService {
         return clientsDataRecord;
     }
 
-    public List<ClientsDataRecord> getAllAllRecords() {
-        return clientsDataRecordRepository.findAll();
-    }
-
-    public List<Client> getAllALlClients() {
-        return clientRepository.findAll();
-    }
-
-    public Client saveClient(Client client) {
-        return clientRepository.save(client);
-    }
-
     public List<ClientsDataRecord> getRecordsForClientsIdWithQuery(int clientId) {
+        long time1 = System.currentTimeMillis();
         List<ClientsDataRecord> result = clientsDataRecordRepository.getAllRecordsForCurrentClient(clientId);
+        long time2 = System.currentTimeMillis();
+        long actualTime = time2 - time1;
+        System.out.println("time for selecting records = " + actualTime);
         return result;
     }
-//    public ClientsDataRecordResponse mapToClientsDataRecordResponse(ClientsDataRecord record) {
-//        ClientsDataRecordResponse response = new ClientsDataRecordResponse();
-//        response.setId();
-//    }
+
+    public void initDb() {
+
+        Client client1 = new Client("client1");
+        Client client2 = new Client("client2");
+        Client client3 = new Client("client3");
+        clientRepository.saveAll(Arrays.asList(client1, client2, client3));
+
+        ClientsDataRecord clientsDataRecord1 = new ClientsDataRecord();
+        clientsDataRecord1.setClientId(1);
+        clientsDataRecord1.setColdWaterValue(10);
+        clientsDataRecord1.setHotWaterValue(10);
+        clientsDataRecord1.setGasValue(10);
+        clientsDataRecord1.setLocalDate(LocalDate.now());
+
+        ClientsDataRecord clientsDataRecord2 = new ClientsDataRecord();
+        clientsDataRecord2.setClientId(1);
+        clientsDataRecord2.setColdWaterValue(10);
+        clientsDataRecord2.setHotWaterValue(10);
+        clientsDataRecord2.setGasValue(10);
+        clientsDataRecord2.setLocalDate(LocalDate.now());
+
+        clientsDataRecordRepository.save(clientsDataRecord1);
+        clientsDataRecordRepository.save(clientsDataRecord2);
+    }
+
 }
