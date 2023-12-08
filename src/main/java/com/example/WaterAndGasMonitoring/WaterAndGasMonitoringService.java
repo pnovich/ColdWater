@@ -45,13 +45,12 @@ public class WaterAndGasMonitoringService {
         return clientsDataRecord;
     }
 
-    public List<ClientsDataRecord> getRecordsForClientsIdWithQuery(int clientId) {
-        long time1 = System.currentTimeMillis();
-        List<ClientsDataRecord> result = clientsDataRecordRepository.getAllRecordsForCurrentClient(clientId);
-        long time2 = System.currentTimeMillis();
-        long actualTime = time2 - time1;
-        System.out.println("time for selecting records = " + actualTime);
-        return result;
+    public Client getClientById(int id) {
+        return clientRepository.getById(id);
+    }
+
+    List<ClientsDataRecord> getListOfRecordsByClientId(int clientId) {
+        return clientsDataRecordRepository.findByClientId(clientId);
     }
 
     public void initDb() {
@@ -62,14 +61,14 @@ public class WaterAndGasMonitoringService {
         clientRepository.saveAll(Arrays.asList(client1, client2, client3));
 
         ClientsDataRecord clientsDataRecord1 = new ClientsDataRecord();
-        clientsDataRecord1.setClientId(1);
+        clientsDataRecord1.setClient(client1);
         clientsDataRecord1.setColdWaterValue(10);
         clientsDataRecord1.setHotWaterValue(10);
         clientsDataRecord1.setGasValue(10);
         clientsDataRecord1.setLocalDate(LocalDate.now());
 
         ClientsDataRecord clientsDataRecord2 = new ClientsDataRecord();
-        clientsDataRecord2.setClientId(1);
+        clientsDataRecord2.setClient(client1);
         clientsDataRecord2.setColdWaterValue(10);
         clientsDataRecord2.setHotWaterValue(10);
         clientsDataRecord2.setGasValue(10);

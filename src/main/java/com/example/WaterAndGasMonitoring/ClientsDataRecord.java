@@ -1,31 +1,30 @@
 package com.example.WaterAndGasMonitoring;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(indexes = @Index(name = "clientIdIndex", columnList = "clientId"))
+@Table(indexes = @Index(name = "clientIdIndex", columnList = "client_Id"))
 public class ClientsDataRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "clientId")
-    private int clientId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Client client;
     private int gasValue;
     private int coldWaterValue;
     private int hotWaterValue;
     private LocalDate localDate;
 
     public ClientsDataRecord() {
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
     }
 
     public int getGasValue() {
@@ -64,7 +63,7 @@ public class ClientsDataRecord {
     public String toString() {
         return "ClientsDataRecord{" +
                 "id=" + id +
-                ", clientId=" + clientId +
+                ", clientId=" + client.getId() +
                 ", gasValue=" + gasValue +
                 ", coldWaterValue=" + coldWaterValue +
                 ", hotWaterValue=" + hotWaterValue +
@@ -78,5 +77,13 @@ public class ClientsDataRecord {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

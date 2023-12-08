@@ -23,7 +23,7 @@ public class WaterAndGasMonitoringController {
     @GetMapping("/records/{id}")
     List<ClientsDataRecord> getAllRecordsForClient(@Valid @PathVariable ("id") int id) {
 
-        return waterAndGasMonitoringService.getRecordsForClientsIdWithQuery(id);
+        return waterAndGasMonitoringService.getListOfRecordsByClientId(id);
     }
 
     @Operation(summary = "creates one record for specific user." +
@@ -38,8 +38,9 @@ public class WaterAndGasMonitoringController {
             @Valid @RequestBody ClientsDataRecordDto clientsDataRecordDto) {
         int clientsId = id;
         waterAndGasMonitoringService.validateClientId(clientsId);
+        Client client = waterAndGasMonitoringService.getClientById(clientsId);
         ClientsDataRecord clientsDataRecord = waterAndGasMonitoringService.mapClientsDataRecordDtoToRecord(clientsDataRecordDto);
-        clientsDataRecord.setClientId(clientsId);
+        clientsDataRecord.setClient(client);
         clientsDataRecord.setLocalDate(LocalDate.now());
 
         return waterAndGasMonitoringService.createClientsdataRecord(clientsDataRecord);
