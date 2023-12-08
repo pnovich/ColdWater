@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String clientName;
 
@@ -33,5 +33,13 @@ public class Client {
 
     public void setClientName(String clientName) {
         this.clientName = clientName;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", clientName='" + clientName + '\'' +
+                '}';
     }
 }

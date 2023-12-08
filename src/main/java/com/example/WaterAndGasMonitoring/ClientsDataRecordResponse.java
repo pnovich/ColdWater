@@ -1,23 +1,24 @@
 package com.example.WaterAndGasMonitoring;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(indexes = @Index(name = "clientIdIndex", columnList = "clientId"))
-public class ClientsDataRecord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ClientsDataRecordResponse {
     private int id;
-
-    @Column(name = "clientId")
     private int clientId;
     private int gasValue;
     private int coldWaterValue;
     private int hotWaterValue;
     private LocalDate localDate;
 
-    public ClientsDataRecord() {
+    public ClientsDataRecordResponse() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getClientId() {
@@ -62,7 +63,7 @@ public class ClientsDataRecord {
 
     @Override
     public String toString() {
-        return "ClientsDataRecord{" +
+        return "ClientsDataRecordResponse{" +
                 "id=" + id +
                 ", clientId=" + clientId +
                 ", gasValue=" + gasValue +
@@ -70,13 +71,5 @@ public class ClientsDataRecord {
                 ", hotWaterValue=" + hotWaterValue +
                 ", localDate=" + localDate +
                 '}';
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }

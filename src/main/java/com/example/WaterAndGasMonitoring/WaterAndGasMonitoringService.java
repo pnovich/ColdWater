@@ -29,18 +29,33 @@ public class WaterAndGasMonitoringService {
         Client client3 = new Client("client3");
         clientRepository.saveAll(Arrays.asList(client1, client2, client3));
 
-        ClientsDataRecord clientsDataRecord = new ClientsDataRecord();
-        clientsDataRecord.setClientId(1);
-        clientsDataRecord.setColdWaterValue(10);
-        clientsDataRecord.setHotWaterValue(10);
-        clientsDataRecord.setGasValue(10);
-        clientsDataRecord.setLocalDate(LocalDate.now());
-        clientsDataRecordRepository.save(clientsDataRecord);
+        for (int i = 1; i < 4; i++) {
+            for (int j = 0; j< 10000; j++) {
+                int value = j*10;
+
+                ClientsDataRecord clientsDataRecord = new ClientsDataRecord();
+                clientsDataRecord.setClientId(i);
+                clientsDataRecord.setColdWaterValue(j);
+                clientsDataRecord.setHotWaterValue(j);
+                clientsDataRecord.setGasValue(j);
+                clientsDataRecord.setLocalDate(LocalDate.now());
+                clientsDataRecordRepository.save(clientsDataRecord);
+
+            }
+        }
+
+//        ClientsDataRecord clientsDataRecord = new ClientsDataRecord();
+//        clientsDataRecord.setClientId(1);
+//        clientsDataRecord.setColdWaterValue(10);
+//        clientsDataRecord.setHotWaterValue(10);
+//        clientsDataRecord.setGasValue(10);
+//        clientsDataRecord.setLocalDate(LocalDate.now());
+//        clientsDataRecordRepository.save(clientsDataRecord);
     }
 
     public List<ClientsDataRecord> getAllClientsDataRecords(int id) {
         return clientsDataRecordRepository.findAll().stream()
-                .filter(r -> r.clientId == id)
+                .filter(r -> r.getClientId() == id)
                 .collect(Collectors.toList());
     }
 
@@ -76,4 +91,9 @@ public class WaterAndGasMonitoringService {
     public Client saveClient(Client client) {
         return clientRepository.save(client);
     }
+
+//    public ClientsDataRecordResponse mapToClientsDataRecordResponse(ClientsDataRecord record) {
+//        ClientsDataRecordResponse response = new ClientsDataRecordResponse();
+//        response.setId();
+//    }
 }

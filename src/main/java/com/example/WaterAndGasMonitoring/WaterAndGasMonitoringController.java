@@ -1,5 +1,6 @@
 package com.example.WaterAndGasMonitoring;
 
+import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,21 +36,28 @@ public class WaterAndGasMonitoringController {
     @GetMapping("/records/{id}")
     List<ClientsDataRecord> getAllRecordsForClient(@PathVariable ("id") int id) {
 
-        return waterAndGasMonitoringService.getAllClientsDataRecords(id);
+        long time1 = System.currentTimeMillis();
+        List<ClientsDataRecord> result = waterAndGasMonitoringService.getAllClientsDataRecords(id);
+        long time2 = System.currentTimeMillis();
+        long actualTime = time2 - time1;
+        System.out.println("time for selcting records = " + actualTime);
+        return result;
     }
 
-    @PostMapping("/records/{name}")
+    @PostMapping("/records/{id}")
     ClientsDataRecord createClientsDataRecord(
 //            @RequestBody ClientDto clientDto,
-            @PathVariable ("name") String name,
+//            @PathVariable("name") String name,
+            @PathVariable ("id") int id,
                                               @RequestBody ClientsDataRecordDto clientsDataRecordDto) {
 //        int clientsId = waterAndGasMonitoringService.getClientIdByName(clientDto.getName());
-        int clientsId = waterAndGasMonitoringService.getClientIdByName(name);
-
+//        int clientsId = waterAndGasMonitoringService.getClientIdByName(name);
+        int clientsId = id;
         ClientsDataRecord clientsDataRecord = waterAndGasMonitoringService.mapClientsDataRecord(clientsDataRecordDto);
         clientsDataRecord.setClientId(clientsId);
         clientsDataRecord.setLocalDate(LocalDate.now());
 
-        return waterAndGasMonitoringService.createClientsdataRecord(clientsDataRecord);
+        ClientsDataRecord created = waterAndGasMonitoringService.createClientsdataRecord(clientsDataRecord);
+        return created;
     }
 }
