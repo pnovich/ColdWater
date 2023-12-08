@@ -88,6 +88,10 @@ public class WaterAndGasMonitoringService {
         return clientRepository.save(client);
     }
 
+    public List<ClientsDataRecord> getRecordsForClientsIdWithQuery(int clientId) {
+        List<ClientsDataRecord> result = clientsDataRecordRepository.getAllRecordsForCurrentClient(clientId);
+        return result;
+    }
 //    public ClientsDataRecordResponse mapToClientsDataRecordResponse(ClientsDataRecord record) {
 //        ClientsDataRecordResponse response = new ClientsDataRecordResponse();
 //        response.setId();

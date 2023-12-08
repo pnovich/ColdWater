@@ -41,7 +41,8 @@ public class WaterAndGasMonitoringController {
     List<ClientsDataRecord> getAllRecordsForClient(@Valid @PathVariable ("id") int id) {
 
         long time1 = System.currentTimeMillis();
-        List<ClientsDataRecord> result = waterAndGasMonitoringService.getAllClientsDataRecords(id);
+//        List<ClientsDataRecord> result = waterAndGasMonitoringService.getAllClientsDataRecords(id);
+        List<ClientsDataRecord> result = waterAndGasMonitoringService.getRecordsForClientsIdWithQuery(id);
         long time2 = System.currentTimeMillis();
         long actualTime = time2 - time1;
         System.out.println("time for selcting records = " + actualTime);
