@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(indexes = @Index(name = "clientIdIndex", columnList = "client_Id"))
 public class ClientsDataRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
