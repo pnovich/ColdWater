@@ -15,9 +15,9 @@ post : localhost:8080/records/{id}
 for creating a new record, where id is path variable and recordDto is json.
 
 ### Notes
-http://localhost:8080
 
-* [Swagger API](http://localhost:8080/coldwater-openapi)
+* app starts: http://localhost:8080
+* Swagger API: (http://localhost:8080/coldwater-openapi)
 * App validates user input: 
 * json data values should be more than zero, less than 999999, and not empty
 * clients(user) id in path variable should already exist
